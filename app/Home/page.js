@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('SAIT');
@@ -25,20 +26,29 @@ const HomePage = () => {
     setConfession('');
   };
 
+  const currentUser = "SomeUniqueIdentifier"; // Replace with the actual user identifier
+
   return (
     <div className="bg-black min-h-screen flex flex-col items-center justify-start w-full">
       {/* Post Creation Section */}
-      <form onSubmit={handleConfessionSubmit} className="mb-4 w-full max-w-md p-4">
-        <textarea
-          value={confession}
-          onChange={handleConfessionChange}
-          className="w-full p-2 text-black"
-          placeholder="Type your confession here..."
-        />
-        <button type="submit" className="bg-red-600 text-white px-4 py-2 mt-2 w-full">
-          Post Confession
-        </button>
-      </form>
+      <div className="flex w-full max-w-md p-4 items-center">
+        {/* User Avatar */}
+        <div className="mr-4">
+          <UserAvatar username={currentUser} />
+        </div>
+
+        <form onSubmit={handleConfessionSubmit} className="flex-grow">
+          <textarea
+            value={confession}
+            onChange={handleConfessionChange}
+            className="w-full p-2 text-black"
+            placeholder="Type your confession here..."
+          />
+          <button type="submit" className="bg-red-600 text-white px-4 py-2 mt-2 w-full">
+            Post Confession
+          </button>
+        </form>
+      </div>
 
       {/* Tabs */}
       <div className="flex w-full bg-gray-800">
