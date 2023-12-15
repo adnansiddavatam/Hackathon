@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
+import Link from 'next/link';
 import { getFirestore, onSnapshot, collection, addDoc, orderBy, query, serverTimestamp } from 'firebase/firestore';
 import { auth, app } from './../_utils/firebase';
 
