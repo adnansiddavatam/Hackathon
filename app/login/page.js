@@ -1,9 +1,9 @@
-'use client'
+
 import { useState } from 'react';
 import { UserAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';  
 
-export const AuthLogin = () => {
+const AuthLogin = () => {
   const { onLogin } = UserAuth();  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -97,3 +97,5 @@ export const AuthLogin = () => {
     </div>
   );
 };
+
+export default AuthLogin;
