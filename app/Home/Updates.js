@@ -130,7 +130,7 @@ function HomePage() {
   };
 
   return (
-    <div className='min-h-screen overflow-x-auto'>
+    <div className='min-h-screen'>
       {/* Navbar and rest of the component */}
       <div className='navbar bg-gray-900 px-4 py-2 flex items-center justify-between'>
         <div className='flex items-center justify-center' ref={menuRef}>
