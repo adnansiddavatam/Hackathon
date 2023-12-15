@@ -13,7 +13,7 @@ const AuthLogin = () => {
     e.preventDefault();
     try {
       await onLogin(email, password);
-      router.push('/journal');
+      router.push('Home');
     } catch (error) {
       console.error('Login failed', error);
       window.alert(`Login failed: ${error.message}`);
