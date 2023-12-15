@@ -1,20 +1,31 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
- :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 0, 0, 0;
+:root {
+  --foreground-rgb: 255, 255, 255; /* White for text */
+  --background-rgb: 13, 17, 23; /* Dark navy blue, similar to the background of the image */
+  --accent-rgb: 239, 68, 68; /* Bright red, similar to the red in the logo */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-rgb: 0, 0, 0;
+    --foreground-rgb: 255, 255, 255;
+    --background-rgb: 13, 17, 23;
+    --accent-rgb: 239, 68, 68;
   }
-} 
+}
 
-  body {
+body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+a, .text-accent {
+  color: rgb(var(--accent-rgb));
+}
+
+/* Additional styles for hover effects on links to match the logo theme */
+a:hover, .text-accent:hover {
+  color: rgba(var(--accent-rgb), 0.8); /* Slightly transparent red for hover effect */
 }
