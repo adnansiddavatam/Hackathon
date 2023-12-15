@@ -3,9 +3,43 @@ import React, { useState } from 'react';
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('SAIT');
+  const [confession, setConfession] = useState('');
+  const [saitConfessions, setSaitConfessions] = useState([]);
+  const [devConfessions, setDevConfessions] = useState([]);
+
+  const handleConfessionChange = (event) => {
+    setConfession(event.target.value);
+  };
+
+  const handleConfessionSubmit = (event) => {
+    event.preventDefault();
+    const newConfession = {
+      text: confession,
+      timestamp: new Date().toISOString()
+    };
+    if (activeTab === 'SAIT') {
+      setSaitConfessions([newConfession, ...saitConfessions]);
+    } else {
+      setDevConfessions([newConfession, ...devConfessions]);
+    }
+    setConfession('');
+  };
 
   return (
     <div className="bg-black min-h-screen flex flex-col items-center justify-start w-full">
+      {/* Post Creation Section */}
+      <form onSubmit={handleConfessionSubmit} className="mb-4 w-full max-w-md p-4">
+        <textarea
+          value={confession}
+          onChange={handleConfessionChange}
+          className="w-full p-2 text-black"
+          placeholder="Type your confession here..."
+        />
+        <button type="submit" className="bg-red-600 text-white px-4 py-2 mt-2 w-full">
+          Post Confession
+        </button>
+      </form>
+
       {/* Tabs */}
       <div className="flex w-full bg-gray-800">
         <button
@@ -21,19 +55,22 @@ const HomePage = () => {
           Software Development
         </button>
       </div>
-      {/* Content */}
+
+      {/* Tab Content */}
       <div className="flex-grow w-full bg-gray-900 p-6">
         {activeTab === 'SAIT' ? (
           <div>
-            {/* Content for SAIT tab */}
             <h2 className="text-2xl text-white font-bold mb-4">Campus Confessions</h2>
-            {/* Components for confessions will go here */}
+            {saitConfessions.map((conf, index) => (
+              <p key={index} className="text-white mb-2">{conf.text}</p>
+            ))}
           </div>
         ) : (
           <div>
-            {/* Content for Software Development tab */}
             <h2 className="text-2xl text-white font-bold mb-4">Software Development Forums</h2>
-            {/* Components for program-specific forums will go here */}
+            {devConfessions.map((conf, index) => (
+              <p key={index} className="text-white mb-2">{conf.text}</p>
+            ))}
           </div>
         )}
       </div>
