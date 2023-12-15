@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
 
+
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('SAIT');
   const [confession, setConfession] = useState('');
@@ -51,6 +52,21 @@ const HomePage = () => {
         </form>
       </div>
 
+      {/* Tabs */}
+      <div className="flex w-full bg-gray-800">
+        <button
+          className={`flex-1 py-4 text-lg font-semibold ${activeTab === 'SAIT' ? 'text-red-600 bg-gray-700' : 'text-gray-400'}`}
+          onClick={() => setActiveTab('SAIT')}
+        >
+          SAIT
+        </button>
+        <button
+          className={`flex-1 py-4 text-lg font-semibold ${activeTab === 'Software Development' ? 'text-red-600 bg-gray-700' : 'text-gray-400'}`}
+          onClick={() => setActiveTab('Software Development')}
+        >
+          Software Development
+        </button>
+      </div>
 
       {/* Tab Content */}
       <div className="flex-grow w-full bg-gray-900 p-6">
@@ -63,7 +79,7 @@ const HomePage = () => {
           </div>
         ) : (
           <div>
-            <h2 className="text-2xl text-white font-bold mb-4">Software Development Forums</h2>
+            <h2 className="text-2xl text-white font-bold mb-4">Software Development Confessions</h2>
             {devConfessions.map((conf, index) => (
               <p key={index} className="text-white mb-2">{conf.text}</p>
             ))}

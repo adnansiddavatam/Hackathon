@@ -80,7 +80,7 @@ const AuthLogin = () => {
       </form>
 
       {/* Link to createAccount page */}
-      <Link style={{ marginTop: '15px', color: 'white', cursor: 'pointer' }} href="/createAccount">
+      <Link style={{ marginTop: '15px', color: 'white', cursor: 'pointer' }} href="./createAccount">
           Create an Account
       </Link>
 
