@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
+import Link from 'next/link';
 
 
 const HomePage = () => {
@@ -66,6 +67,14 @@ const HomePage = () => {
         >
           Software Development
         </button>
+
+        <Link href="/Profile" passHref>
+        <button className="your-tailwind-button-classes">
+        Profile
+        </button>
+        </Link>
+        
+          
       </div>
 
       {/* Tab Content */}
