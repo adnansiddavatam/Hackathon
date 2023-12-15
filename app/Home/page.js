@@ -124,7 +124,7 @@ function HomePage() {
         </div>
       </div>
       <div className='flex min-h-screen'>
-        <div className='resize-x overflow-auto min-w-64 max-w-xs bg-gray-700 p-4'>
+        <div className='resize-x overflow-auto min-w-64 max-w-xs bg-gray-700 overflow-y-auto p-4'>
             {/* User Avatar and Username */}
             <div className='flex items-center gap-2 mb-4'>
               <UserAvatar user={user} className='rounded-xl' />
@@ -147,7 +147,7 @@ function HomePage() {
         </div>
 
        {/* Main Content */}
-       <div className='flex-grow bg-gray-800 py-10 px-4 relative'>
+       <div className='flex-grow bg-gray-800 h-[10000px] py-10 px-4 relative'>
           {/* Messages Display Area */}
           <div className='w-11/12 h-full overflow-auto'>
             {messages.map((msg) => (
@@ -162,7 +162,7 @@ function HomePage() {
           </div>
 
           {/* Message Input Area */}
-          <div className='fixed bottom-10 w-10/12 mx-auto'>
+          <div className='fixed bottom-10 w-8/12 mx-auto'>
             <div className='flex gap-2'>
               <input
                 className='flex-grow p-2 bg-gray-900 text-white rounded'
