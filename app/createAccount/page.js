@@ -3,7 +3,7 @@ import { auth } from "../_utils/firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from "react";
 import { useRouter } from 'next/navigation';  
-
+// Comment
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
