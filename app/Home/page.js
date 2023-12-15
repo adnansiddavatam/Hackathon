@@ -4,7 +4,7 @@ import Image from 'next/image';
 import UserAvatar from '../Avatar/UserAvatar';
 import Link from 'next/link';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, onSnapshot, collection, addDoc, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, onSnapshot, collection, addDoc, doc, deleteDoc, updateDoc, orderBy, query, serverTimestamp } from 'firebase/firestore';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, app } from './../_utils/firebase';
 
@@ -17,6 +17,8 @@ function HomePage() {
   const [newMessage, setNewMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingMessageId, setEditingMessageId] = useState(null);
+  const [replyingToMessageId, setReplyingToMessageId] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const groups = ['Sait General', 'Software Development Group'];
@@ -35,13 +37,6 @@ function HomePage() {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    const filtered = searchTerm ? 
-      groups.filter(group => group.toLowerCase().includes(searchTerm.toLowerCase())) : 
-      groups;
-    setFilteredGroups(filtered);
-  }, [searchTerm, groups]);
-
   const handleFileUpload = async (file) => {
     const fileRef = storageRef(storage, `messages/${file.name}`);
     const snapshot = await uploadBytes(fileRef, file);
@@ -55,17 +50,27 @@ function HomePage() {
       imageUrl = await handleFileUpload(selectedFile);
     }
     
-    await addDoc(collection(db, "messages"), {
+    const messageData = {
       uid: user.uid,
       photoURL: user.photoURL,
       displayName: user.displayName,
       text: newMessage,
       image: imageUrl,
-      timestamp: serverTimestamp()
-    });
+      timestamp: serverTimestamp(),
+      replyTo: replyingToMessageId
+    };
+
+    if (editingMessageId) {
+      const messageRef = doc(db, "messages", editingMessageId);
+      await updateDoc(messageRef, messageData);
+      setEditingMessageId(null);
+    } else {
+      await addDoc(collection(db, "messages"), messageData);
+    }
 
     setNewMessage("");
     setSelectedFile(null);
+    setReplyingToMessageId(null);
   };
 
   const handleFileChange = (event) => {
@@ -83,8 +88,50 @@ function HomePage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const startEditingMessage = (messageId, text) => {
+    setEditingMessageId(messageId);
+    setNewMessage(text);
+  };
+
+  const deleteMessage = async (messageId) => {
+    const messageRef = doc(db, "messages", messageId);
+    await deleteDoc(messageRef);
+  };
+
+  const startReplyingToMessage = (messageId) => {
+    setReplyingToMessageId(messageId);
+  };
+  useEffect(() => {
+    const filtered = searchTerm ? 
+      groups.filter(group => group.toLowerCase().includes(searchTerm.toLowerCase())) : 
+      groups;
+    setFilteredGroups(filtered);
+  }, [searchTerm, groups]);
+
+  // Render each message with options
+  const renderMessage = (message) => {
+    const isUserMessage = message.data.uid === user?.uid;
+    return (
+      <div key={message.id} className={`flex items-start mb-4 ${isUserMessage ? 'justify-end' : 'justify-start'}`}>
+        <UserAvatar user={message.data} className='w-10 h-10 rounded-full mr-3' />
+        <div className={`rounded px-4 py-2 ${isUserMessage ? 'bg-blue-500 text-white' : 'bg-gray-900 text-gray-300'}`}>
+          <div className='font-semibold'>{message.data.displayName}</div>
+          <p>{message.data.text}</p>
+          {isUserMessage && (
+            <div className="message-options ">
+              <button onClick={() => startEditingMessage(message.id, message.data.text)}className='hover:bg-blue-400 p-2'>Edit</button>
+              <button onClick={() => deleteMessage(message.id)} className='p-2'>Delete</button>
+              <button onClick={() => startReplyingToMessage(message.id)} className='p-2'>Reply</button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className='min-h-screen'>
+      {/* Navbar and rest of the component */}
       <div className='navbar bg-gray-900 px-4 py-2 flex items-center justify-between'>
         <div className='flex items-center justify-center' ref={menuRef}>
           <Image src='/S-HELP_Logo.png' alt='App Logo' width={50} height={50} className='cursor-pointer mr-4 rounded-3xl' onClick={() => setShowMenu(!showMenu)} />
@@ -109,17 +156,14 @@ function HomePage() {
           ))}
         </div>
         <div className='flex-grow bg-gray-800 py-10 px-4 relative'>
-          <div className='w-11/12 h-full overflow-auto'>
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex items-start mb-4 ${msg.data.uid === user?.uid ? 'justify-end' : 'justify-start'}`}>
-                <UserAvatar user={msg.data} className='w-10 h-10 rounded-full mr-3' />
-                <div className={`rounded px-4 py-2 ${msg.data.uid === user?.uid ? 'bg-blue-500 text-white' : 'bg-gray-900 text-gray-300'}`}>
-                  <div className='font-semibold'></div>
-                  <p>{msg.data.text}</p>
-                </div>
-              </div>
-            ))}
+          {/* Messages Display Area */}
+          <div className='flex-grow bg-gray-800 py-10 px-4 relative'>
+            {/* Messages Display Area */}
+            <div className='w-11/12 h-full overflow-auto'>
+              {messages.map(renderMessage)}
+            </div>
           </div>
+          {/* Message Input Area */}
           <div className='fixed bottom-10 w-8/12 mx-auto'>
             <div className='flex gap-2'>
                 <input className='flex-grow p-2 bg-gray-900 text-white rounded' value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type a message..." />
