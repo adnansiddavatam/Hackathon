@@ -1,10 +1,11 @@
+// Import statements for necessary components and libraries
 "use client";
 import React, { useState } from 'react';
 import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
 import Link from 'next/link';
 
-
 const HomePage = () => {
+  // State and event handling code
   const [activeTab, setActiveTab] = useState('SAIT');
   const [confession, setConfession] = useState('');
   const [saitConfessions, setSaitConfessions] = useState([]);
@@ -30,14 +31,35 @@ const HomePage = () => {
 
   const currentUser = "SomeUniqueIdentifier"; // Replace with the actual user identifier
 
+  // Helper function to render confession messages
+  const renderConfessionMessage = (conf) => (
+    <div key={conf.timestamp} className="flex items-start mb-4">
+      <div className="mr-4">
+        <Link href="/Profile" passHref> {/* Replace "/Profile" with the actual profile page URL */}
+          <a>
+            <UserAvatar seed={currentUser} /> {/* Use seed instead of username */}
+          </a>
+        </Link>
+      </div>
+      <div>
+        <p className="text-white">{conf.text}</p>
+        <p className="text-gray-400 text-sm">{conf.timestamp}</p>
+      </div>
+    </div>
+  );
+
   return (
     <div className="bg-black min-h-screen flex flex-col items-center justify-start w-full">
       {/* Post Creation Section */}
       <div className="flex w-full max-w-md p-4 items-center">
-        {/* User Avatar */}
-        <div className="mr-4">
-          <UserAvatar seed={currentUser} /> {/* Use seed instead of username */}
-        </div>
+        {/* User Avatar (Wrapped in Link) */}
+        <Link href="/Profile" passHref> {/* Replace "/Profile" with the actual profile page URL */}
+          <a>
+            <div className="mr-4">
+              <UserAvatar seed={currentUser} />
+            </div>
+          </a>
+        </Link>
 
         {/* Confession Form */}
         <form onSubmit={handleConfessionSubmit} className="flex-grow">
@@ -67,14 +89,6 @@ const HomePage = () => {
         >
           Software Development
         </button>
-
-        <Link href="/Profile" passHref>
-        <button className="your-tailwind-button-classes">
-        Profile
-        </button>
-        </Link>
-        
-          
       </div>
 
       {/* Tab Content */}
@@ -82,16 +96,12 @@ const HomePage = () => {
         {activeTab === 'SAIT' ? (
           <div>
             <h2 className="text-2xl text-white font-bold mb-4">Campus Confessions</h2>
-            {saitConfessions.map((conf, index) => (
-              <p key={index} className="text-white mb-2">{conf.text}</p>
-            ))}
+            {saitConfessions.map((conf) => renderConfessionMessage(conf))}
           </div>
         ) : (
           <div>
             <h2 className="text-2xl text-white font-bold mb-4">Software Development Confessions</h2>
-            {devConfessions.map((conf, index) => (
-              <p key={index} className="text-white mb-2">{conf.text}</p>
-            ))}
+            {devConfessions.map((conf) => renderConfessionMessage(conf))}
           </div>
         )}
       </div>
