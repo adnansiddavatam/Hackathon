@@ -5,7 +5,6 @@ function LoginPortal(){
   return(
     <div>
     <Link href="/login">Log in </Link>
-    <Link href="/signup">Log in </Link>
   </div>
   )
 }
