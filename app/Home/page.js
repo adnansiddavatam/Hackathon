@@ -34,9 +34,10 @@ const HomePage = () => {
       <div className="flex w-full max-w-md p-4 items-center">
         {/* User Avatar */}
         <div className="mr-4">
-          <UserAvatar username={currentUser} />
+          <UserAvatar seed={currentUser} /> {/* Use seed instead of username */}
         </div>
 
+        {/* Confession Form */}
         <form onSubmit={handleConfessionSubmit} className="flex-grow">
           <textarea
             value={confession}
@@ -50,21 +51,6 @@ const HomePage = () => {
         </form>
       </div>
 
-      {/* Tabs */}
-      <div className="flex w-full bg-gray-800">
-        <button
-          className={`flex-1 py-4 text-lg font-semibold ${activeTab === 'SAIT' ? 'text-red-600 bg-gray-700' : 'text-gray-400'}`}
-          onClick={() => setActiveTab('SAIT')}
-        >
-          SAIT
-        </button>
-        <button
-          className={`flex-1 py-4 text-lg font-semibold ${activeTab === 'Software Development' ? 'text-red-600 bg-gray-700' : 'text-gray-400'}`}
-          onClick={() => setActiveTab('Software Development')}
-        >
-          Software Development
-        </button>
-      </div>
 
       {/* Tab Content */}
       <div className="flex-grow w-full bg-gray-900 p-6">

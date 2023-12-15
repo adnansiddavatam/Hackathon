@@ -1,17 +1,13 @@
-// UserAvatar.js
-import Image from 'next/image';
+import React from 'react';
+import { createAvatar } from '@dicebear/core';
+import { botttsNeutral } from '@dicebear/collection';
 
-const UserAvatar = ({ username }) => {
-  const avatarUrl = `https://avatars.dicebear.com/api/avataaars/${encodeURIComponent(username)}.svg`;
+const UserAvatar = ({ seed }) => {
+  const svgAvatar = createAvatar(botttsNeutral, {
+    seed: seed
+  });
 
-  return (
-    <Image
-      src={avatarUrl}
-      alt={`Avatar for ${username}`}
-      width={50}  // Adjust the size as needed
-      height={50}  // Adjust the size as needed
-    />
-  );
+  return <div dangerouslySetInnerHTML={{ __html: svgAvatar }} style={{ width: '50px', height: '50px' }} />;
 };
 
 export default UserAvatar;
