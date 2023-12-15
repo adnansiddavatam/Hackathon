@@ -6,10 +6,10 @@ function LoginPortal() {
     <div className="flex flex-col justify-center items-center min-h-screen bg-black">
       {/* Add the logo image above the welcome message */}
       <img
-        src="/app/images/S-HELP_Logo.png"
-        alt="S-HELP Logo"
-        className="w-48 mb-6" // Adjust the width as needed
-      />
+  src="/images/S-HELP_Logo.png"
+  alt="S-HELP Logo"
+  className="w-48 mb-6" // Adjust the width as needed
+/>
       <h1 className="text-4xl text-white font-bold mb-4">
         Welcome to S-HELP
       </h1>
