@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { UserAuth } from '../context/AuthContext';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation'; 
 import Link from 'next/link'; 
 
@@ -18,6 +19,16 @@ const AuthLogin = () => {
     } catch (error) {
       console.error('Login failed', error);
       window.alert(`Login failed: ${error.message}`);
+    }
+  };
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+    }
+    catch (error) {
+      console.error('Login failed', error);
     }
   };
 
@@ -80,9 +91,12 @@ const AuthLogin = () => {
       </form>
 
       {/* Link to createAccount page */}
-      <Link style={{ marginTop: '15px', color: 'white', cursor: 'pointer' }} href="./createAccount">
-          Create an Account
-      </Link>
+      <div className="flex">
+        <Link style={{ marginTop: '15px', color: 'white', cursor: 'pointer' }} href="./createAccount">
+            Create an Account
+        </Link>
+        <button onClick={handleGoogleLogin} className="btn btn-primary">Sign In With Google</button>
+      </div>
 
       <button
         onClick={() => {
