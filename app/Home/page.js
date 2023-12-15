@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import UserAvatar from '../Avatar/UserAvatar'; // Ensure this path is correct
 
+
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('SAIT');
   const [confession, setConfession] = useState('');
@@ -34,9 +35,10 @@ const HomePage = () => {
       <div className="flex w-full max-w-md p-4 items-center">
         {/* User Avatar */}
         <div className="mr-4">
-          <UserAvatar username={currentUser} />
+          <UserAvatar seed={currentUser} /> {/* Use seed instead of username */}
         </div>
 
+        {/* Confession Form */}
         <form onSubmit={handleConfessionSubmit} className="flex-grow">
           <textarea
             value={confession}
@@ -77,7 +79,7 @@ const HomePage = () => {
           </div>
         ) : (
           <div>
-            <h2 className="text-2xl text-white font-bold mb-4">Software Development Forums</h2>
+            <h2 className="text-2xl text-white font-bold mb-4">Software Development Confessions</h2>
             {devConfessions.map((conf, index) => (
               <p key={index} className="text-white mb-2">{conf.text}</p>
             ))}
