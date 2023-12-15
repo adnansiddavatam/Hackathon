@@ -1,10 +1,11 @@
 "use client"
 import { useState } from 'react';
 import { UserAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';  
+import { useRouter } from 'next/navigation'; 
+import Link from 'next/link'; 
 
 const AuthLogin = () => {
-  const { onLogin } = UserAuth();  
+  const { onLogin } = UserAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
@@ -19,7 +20,7 @@ const AuthLogin = () => {
       window.alert(`Login failed: ${error.message}`);
     }
   };
-  
+
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -41,14 +42,14 @@ const AuthLogin = () => {
     color: 'white',
     cursor: 'pointer',
   };
-  
+
   const formStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '20px',
   };
-  
+
   const logInTitleStyle = {
     fontSize: '24px',
     marginBottom: '20px',
@@ -56,44 +57,50 @@ const AuthLogin = () => {
 
   return (
     <div style={containerStyle}>
-        <h3 style={logInTitleStyle}>Log In</h3>
+      <h3 style={logInTitleStyle}>Log In</h3>
       <form style={formStyle} onSubmit={handleSubmit}>
         <div>
-            <input
+          <input
             style={inputStyle}
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
-            />
+          />
         </div>
         <div>
-            <input
+          <input
             style={inputStyle}
             placeholder="Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            />
+          />
         </div>
         <div>
-            <button type="submit" style={buttonStyle}>Login</button>
+          <button type="submit" style={buttonStyle}>Login</button>
         </div>
       </form>
+
+      {/* Link to createAccount page */}
+      <Link style={{ marginTop: '15px', color: 'white', cursor: 'pointer' }} href="/createAccount">
+          Create an Account
+      </Link>
+
       <button
-          onClick={() => {
-            router.push('/');
-          }}
-          style={{
-            position: 'fixed',
-            bottom: '20px',
-            right: '20px',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            color: 'white',
-            border: '1px solid ',
-            cursor: 'pointer',
-          }}
-        >
-          Back
-        </button>
+        onClick={() => {
+          router.push('/');
+        }}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          color: 'white',
+          border: '1px solid',
+          cursor: 'pointer',
+        }}
+      >
+        Back
+      </button>
     </div>
   );
 };
