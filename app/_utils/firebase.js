@@ -26,3 +26,5 @@ if (typeof window !== 'undefined') {
     }
   });
 }
+
+export default {auth, app, analytics}
